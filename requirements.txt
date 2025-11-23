@@ -153,3 +153,9 @@ audio-recorder-streamlit>=0.0.8
 
 # Логирование
 colorlog>=6.7.0
+
+
+# Specialized Medical Models
+transformers>=4.30.0  # For HuBERT-ECG and other Hugging Face models
+torchxrayvision>=0.0.20  # For chest X-ray analysis
+scikit-learn>=1.3.0  # For dermatoscopy models (if not already present)  
