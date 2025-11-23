@@ -77,7 +77,7 @@ class ModelRouter:
             "anthropic/claude-3-sonnet-20240229"
         ]
 
-    def analyze_with_specialized_model(self, image_type: ImageType, image_data: bytes) -> Optional[str]:
+    def analyze_with_specialized_model(self, image_type: ImageType, image_data: bytes) -> Optional[Dict[str, Any]]:
         """
         Анализ изображения с помощью специализированных моделей
         
