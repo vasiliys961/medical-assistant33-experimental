@@ -3,6 +3,7 @@
 """
 from typing import List, Dict, Optional
 from modules.medical_ai_analyzer import ImageType
+from services.specialized_models import SpecializedModelsIntegration
 
 class ModelRouter:
     """Умный выбор модели для конкретной задачи"""
@@ -48,6 +49,9 @@ class ModelRouter:
             "anthropic/claude-3-5-sonnet",
             "anthropic/claude-3-sonnet-20240229"
         ]
+
+            # Инициализация специализированных моделей
+        self.specialized_models = SpecializedModelsIntegration()
     
     def get_optimal_models(self, image_type: Optional[ImageType] = None, 
                           task_type: str = "vision") -> List[str]:
@@ -72,3 +76,27 @@ class ModelRouter:
             "anthropic/claude-3-haiku",  # Быстрая и дешевая
             "anthropic/claude-3-sonnet-20240229"
         ]
+
+    def analyze_with_specialized_model(self, image_type: ImageType, image_data: bytes) -> Optional[str]:
+        """
+        Анализ изображения с помощью специализированных моделей
+        
+        Args:
+            image_type: Тип медицинского изображения
+            image_data: Байты изображения
+        
+        Returns:
+            Результат анализа или None если специализированная модель не поддерживается
+        """
+        try:
+            if image_type == ImageType.ECG:
+                return self.specialized_models.analyze_ecg(image_data)
+            elif image_type == ImageType.XRAY:
+                return self.specialized_models.analyze_xray(image_data)
+            elif image_type == ImageType.DERMATOSCOPY:
+                return self.specialized_models.analyze_skin(image_data)
+            else:
+                return None  # Специализированная модель не поддерживается
+        except Exception as e:
+            print(f"Ошибка при анализе со специализированной моделью: {e}")
+            return None
